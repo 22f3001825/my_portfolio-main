@@ -162,7 +162,7 @@ function getSkillLevel(skillName) {
         'SQLite': 45,
         'Excel': 90,
         'Matplotlib': 80,
-        'JavaScript': 70,
+        'JavaScript': 60,
         'Machine Learning': 95,
         'Deep Learning': 55,
         'NLP': 35,
