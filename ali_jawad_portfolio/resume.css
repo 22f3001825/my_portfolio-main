@@ -20,7 +20,7 @@ body {
   color: var(--text-color);
   line-height: 1.5;
   background-color: #f9fafb;
-  max-width: 8.5in;
+  max-width: 100%;
   margin: 0 auto;
   font-size: 14px;
 }
@@ -30,11 +30,37 @@ body {
   border: 1px solid var(--border-color);
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   background-color: #fff;
-  min-height: 11in;
-  height: 11in; /* Fixed height to avoid overflow */
-  overflow: hidden;
+  min-height: 100vh;
+  max-width: 8.5in;
+  margin: 0 auto;
   position: relative;
   page-break-after: avoid; 
+}
+
+/* Mobile-specific adjustments */
+@media screen and (max-width: 768px) {
+  .resume-container {
+    padding: 0.2in;
+    min-height: auto;
+  }
+  
+  .contact-info {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .institution, .role, .project-title {
+    flex-direction: column;
+  }
+  
+  .date {
+    margin-top: 2px;
+  }
+  
+  h1 {
+    font-size: 26px;
+  }
 }
 
 .header {
@@ -198,8 +224,7 @@ li {
     padding: 0.25in;
     width: 100%;
     height: 100%;
-    max-height: 11in;
-    overflow: hidden;
+    overflow: visible;
     page-break-after: avoid;
   }
   
@@ -221,7 +246,7 @@ li {
   gap: 10px;
 }
 
-.print-button, .copy-button {
+.print-button, .download-button {
   background-color: var(--primary-color);
   color: white;
   border: none;
@@ -241,16 +266,16 @@ li {
   transform: translateY(-2px);
 }
 
-.copy-button {
+.download-button {
   background-color: var(--secondary-color);
 }
 
-.copy-button:hover {
+.download-button:hover {
   background-color: #2563eb;
   transform: translateY(-2px);
 }
 
-.copy-notification {
+.notification {
   position: fixed;
   bottom: 70px;
   right: 20px;

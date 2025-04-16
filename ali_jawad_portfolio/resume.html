@@ -6,10 +6,14 @@
   <title>Ali Jawad - Resume</title>
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- jsPDF library for PDF download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <link rel="stylesheet" href="resume.css">
+
 </head>
 <body>
-  <div class="resume-container">
+  <div class="resume-container" id="resume">
     <!-- Header Section -->
     <div class="header">
       <h1>ALI JAWAD</h1>
@@ -72,7 +76,7 @@
       </div>
     </div>
     
-    <!-- Soft Skills Section (ADDED) -->
+    <!-- Soft Skills Section -->
     <div class="section">
       <div class="section-title">
         <i class="fas fa-comments"></i> SOFT SKILLS
@@ -155,8 +159,8 @@
     <button class="print-button" onclick="triggerPrint()">
       <i class="fas fa-print"></i> Print
     </button>
-    <button class="copy-button" onclick="copyResumeLink()">
-      <i class="fas fa-share-alt"></i> Share
+    <button class="download-button" onclick="downloadPDF()">
+      <i class="fas fa-download"></i> Download PDF
     </button>
   </div>
   <script src="resume.js"></script>
