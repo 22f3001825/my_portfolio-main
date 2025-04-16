@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ali Jawad - Resume</title>
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="resume.css">
+</head>
+<body>
+  <div class="resume-container">
+    <!-- Header Section -->
+    <div class="header">
+      <h1>ALI JAWAD</h1>
+      <div class="contact-info">
+        <div class="contact-item">
+          <i class="fas fa-envelope"></i>
+          <span>22f3001825@ds.study.iitm.ac.in</span>
+        </div>
+        <div class="contact-item">
+          <i class="fas fa-mobile-alt"></i>
+          <span>+91 XXXXXXXXX</span>
+        </div>
+        <div class="contact-item">
+          <i class="fab fa-linkedin"></i>
+          <span>linkedin.com/in/ali-jawad-9774ab339</span>
+        </div>
+        <div class="contact-item">
+          <i class="fab fa-github"></i>
+          <span>github.com/22f3001825</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Education Section -->
+    <div class="section">
+      <div class="section-title">
+        <i class="fas fa-graduation-cap"></i> EDUCATION
+      </div>
+      <div class="content">
+        <div class="education">
+          <div class="institution">
+            <span>Indian Institute of Technology (IIT) Madras | Chennai, Tamil Nadu</span>
+            <span class="date">Sep 2022 - Sep 2026 (Expected)</span>
+          </div>
+          <div class="degree">Bachelor of Science (BS) in Data Science and Programming | CGPA: 8.67/10.0</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Technical Skills Section -->
+    <div class="section">
+      <div class="section-title">
+        <i class="fas fa-tools"></i> TECHNICAL SKILLS
+      </div>
+      <div class="content">
+        <div class="skills-container">
+          <div class="skill-category">
+            <span class="skill-title">Languages & Libraries:</span> Python (Pandas, NumPy, Scikit-learn, TensorFlow), JavaScript, HTML/CSS, SQL
+          </div>
+          <div class="skill-category">
+            <span class="skill-title">Data & Analytics:</span> Statistical Analysis, Data Visualization, Matplotlib, Excel, Business Intelligence
+          </div>
+          <div class="skill-category">
+            <span class="skill-title">Web Development:</span> Flask, REST APIs, Responsive Design, Vue.js
+          </div>
+          <div class="skill-category">
+            <span class="skill-title">Tools & Platforms:</span> VS Code, Google Colab, Git/GitHub, SQLite, PostgreSQL
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Soft Skills Section (ADDED) -->
+    <div class="section">
+      <div class="section-title">
+        <i class="fas fa-comments"></i> SOFT SKILLS
+      </div>
+      <div class="content">
+        <div class="skills-container">
+          <div class="skill-category">
+            Communication, Problem-Solving, Teamwork, Time Management, Client Relationship Management, Analytical Thinking
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Projects Section -->
+    <div class="section">
+      <div class="section-title">
+        <i class="fas fa-project-diagram"></i> PROJECTS
+      </div>
+      <div class="content">
+        <div class="project">
+          <div class="project-title">
+            <span>Machine Learning: Bank Telemarketing Prediction Model</span>
+            <span class="date">Sep 2024 - Nov 2024</span>
+          </div>
+          <ul>
+            <li>Developed ML model to predict telemarketing success, achieving F1 score of 0.78</li>
+            <li>Conducted EDA, preprocessed data, and compared algorithms (Logistic Regression, Random Forest, XGBoost)</li>
+            <li class="achievement">Achievement: Ranked 23rd out of 1000+ participants in competition</li>
+            <li class="technologies">Technologies: Python, Scikit-learn, Pandas, Data Analysis</li>
+          </ul>
+        </div>
+        
+        <div class="project">
+          <div class="project-title">
+            <span>Business Analytics: Inaya Cakezz Operations Optimization</span>
+            <span class="date">Jan 2024 - Apr 2024</span>
+          </div>
+          <ul>
+            <li>Collected and analysed 2.5 years of operational data to identify inefficiencies and improve business profitability</li>
+            <li>Created data visualizations and developed actionable improvement strategies</li>
+            <li class="achievement">Achievement: Achieved Best Capstone Project award</li>
+            <li class="technologies">Technologies: Excel, Python, Data Analytics, Business Intelligence</li>
+          </ul>
+        </div>
+        
+        <div class="project">
+          <div class="project-title">
+            <span>Web Application: Qvizz Exam Preparation Platform</span>
+          </div>
+          <ul>
+            <li>Built full-stack application with personalized quizzes and adaptive learning algorithms</li>
+            <li>Implemented REST API for front-end/back-end communication and progress tracking functionality</li>
+            <li class="technologies">Technologies: Flask, SQLite, JavaScript, HTML/CSS, Vue.js, REST API</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Professional Experience Section -->
+    <div class="section">
+      <div class="section-title">
+        <i class="fas fa-briefcase"></i> PROFESSIONAL EXPERIENCE
+      </div>
+      <div class="content">
+        <div class="experience">
+          <div class="role">
+            <span>Web Development Freelancer | Self-employed</span>
+            <span class="date">Apr 2025 - Present</span>
+          </div>
+          <ul>
+            <li>Design and develop responsive websites for small businesses with focus on UX and performance</li>
+            <li>Collaborate directly with clients to deliver customized digital solutions</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="control-buttons">
+    <button class="print-button" onclick="triggerPrint()">
+      <i class="fas fa-print"></i> Print
+    </button>
+    <button class="copy-button" onclick="copyResumeLink()">
+      <i class="fas fa-share-alt"></i> Share
+    </button>
+  </div>
+  <script src="resume.js"></script>
+</body>
+</html>
