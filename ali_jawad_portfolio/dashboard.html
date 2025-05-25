@@ -1,0 +1,1138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ali Jawad - Resume Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --secondary: #7c3aed;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg-glass: rgba(255, 255, 255, 0.95);
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-light: #e2e8f0;
+            --bg-light: #f8fafc;
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.15);
+            --gradient-primary: linear-gradient(135deg, var(--primary), var(--secondary));
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --transition: all 0.3s ease;
+            --radius: 15px;
+        }
+
+        [data-theme="dark"] {
+            --bg-glass: rgba(15, 23, 42, 0.95);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-light: #1e293b;
+            --bg-light: #1e293b;
+            --gradient-bg: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gradient-bg);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--text-primary);
+            line-height: 1.6;
+            transition: var(--transition);
+        }
+
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-glass);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .profile-info {
+            position: relative;
+            z-index: 2;
+        }
+
+        .name {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .title {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .tabs {
+            display: flex;
+            background: var(--bg-light);
+            border-bottom: 1px solid var(--border-light);
+            overflow-x: auto;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            transition: var(--transition);
+            position: relative;
+            min-width: 120px;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            background: white;
+        }
+
+        [data-theme="dark"] .tab.active {
+            background: var(--bg-glass);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gradient-primary);
+        }
+
+        .tab:hover:not(.active) {
+            background: rgba(241, 245, 249, 0.5);
+            color: #475569;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--border-light);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        [data-theme="dark"] .card {
+            background: rgba(15, 23, 42, 0.8);
+            border-color: #334155;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .card-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+        }
+
+        .skill-item {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 12px 16px;
+            border-radius: 25px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            cursor: default;
+        }
+
+        .skill-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .project-date {
+            background: var(--bg-light);
+            color: #475569;
+            padding: 5px 12px;
+            border-radius: var(--radius);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        [data-theme="dark"] .project-date {
+            background: #334155;
+            color: #e2e8f0;
+        }
+
+        .badge {
+            padding: 5px 12px;
+            border-radius: var(--radius);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .badge-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+        }
+
+        .badge-warning {
+            background: linear-gradient(135deg, var(--warning), #d97706);
+        }
+
+        .project-highlights {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .project-highlights li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        [data-theme="dark"] .project-highlights li {
+            color: #94a3b8;
+        }
+
+        .project-highlights li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .education-details {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .cgpa {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .summary-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #475569;
+            text-align: justify;
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--primary);
+        }
+
+        [data-theme="dark"] .summary-text {
+            background: rgba(15, 23, 42, 0.8);
+            color: #e2e8f0;
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .floating-element {
+            position: absolute;
+            opacity: 0.15;
+            color: rgba(79, 70, 229, 0.3);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            25% { transform: translateY(-30px) translateX(20px) rotate(90deg); }
+            50% { transform: translateY(-60px) translateX(-10px) rotate(180deg); }
+            75% { transform: translateY(-30px) translateX(-30px) rotate(270deg); }
+        }
+
+        .control-buttons {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .pulse { animation: pulse 2s ease-in-out infinite; }
+        .bounce { animation: bounce 3s ease-in-out infinite; }
+        .rotate { animation: rotateIcon 4s linear infinite; }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes rotateIcon {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .dashboard { border-radius: var(--radius); }
+            .header { padding: 30px 20px; }
+            .contact-info { gap: 15px; }
+            .content { padding: 20px; }
+            .cards { grid-template-columns: 1fr; }
+            .tab { padding: 15px 10px; font-size: 0.9rem; min-width: 100px; }
+            .skills-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; }
+            .control-buttons { position: relative; top: auto; right: auto; justify-content: center; margin-top: 20px; }
+        }
+
+        @media print {
+            body * { visibility: hidden; }
+            .dashboard, .dashboard * { visibility: visible; }
+            .dashboard { position: absolute; left: 0; top: 0; width: 100%; box-shadow: none; background: white; }
+            .tab-content { display: block !important; page-break-after: always; }
+            .tab-content:last-child { page-break-after: auto; }
+            .tabs, .control-buttons { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <i class="fas fa-code floating-element" style="top: 8%; left: 5%; font-size: 2.5rem; animation-delay: 0s;"></i>
+        <i class="fas fa-database floating-element" style="top: 15%; right: 8%; font-size: 2rem; animation-delay: 2s;"></i>
+        <i class="fas fa-chart-line floating-element" style="top: 25%; left: 80%; font-size: 1.8rem; animation-delay: 4s;"></i>
+        <i class="fas fa-brain floating-element" style="bottom: 30%; left: 10%; font-size: 2.2rem; animation-delay: 6s;"></i>
+        <i class="fas fa-laptop-code floating-element" style="bottom: 15%; right: 15%; font-size: 2rem; animation-delay: 1s;"></i>
+        <i class="fas fa-robot floating-element" style="top: 45%; left: 3%; font-size: 1.5rem; animation-delay: 3s;"></i>
+    </div>
+
+    <div class="dashboard">
+        <header class="header">
+            <div class="control-buttons">
+                <button class="btn" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                    <span>Dark</span>
+                </button>
+                <button class="btn" id="printBtn">
+                    <i class="fas fa-print"></i>
+                    <span>Print</span>
+                </button>
+            </div>
+            <div class="profile-info">
+                <h1 class="name">ALI JAWAD</h1>
+                <p class="title">Data Science Student | IIT Madras</p>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>22f3001825@ds.study.iitm.ac.in</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-linkedin"></i>
+                        <span>linkedin.com/in/ali-jawad-9774ab339</span>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-github"></i>
+                        <span>github.com/22f3001825</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <nav class="tabs">
+            <button class="tab active" data-tab="summary">
+                <i class="fas fa-user pulse"></i> Summary
+            </button>
+            <button class="tab" data-tab="education">
+                <i class="fas fa-graduation-cap bounce"></i> Education
+            </button>
+            <button class="tab" data-tab="skills">
+                <i class="fas fa-cogs rotate"></i> Skills
+            </button>
+            <button class="tab" data-tab="projects">
+                <i class="fas fa-rocket pulse"></i> Projects
+            </button>
+        </nav>
+
+        <main class="content">
+            <div id="summary" class="tab-content active">
+                <h2 class="section-title">
+                    <i class="fas fa-user-circle"></i>
+                    Professional Summary
+                </h2>
+                <div class="summary-text">
+                    Data Science student at IIT Madras with hands-on experience in Python, Machine Learning, and data analysis through academic projects. Skilled in developing data-driven solutions with a strong interest in solving real-world problems and generating actionable insights.
+                </div>
+            </div>
+
+            <div id="education" class="tab-content">
+                <h2 class="section-title">
+                    <i class="fas fa-university"></i>
+                    Education
+                </h2>
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-graduation-cap bounce"></i>
+                            </div>
+                            <div>
+                                <div class="card-title">Bachelor of Science in Data Science and Programming</div>
+                                <div class="card-subtitle">Indian Institute of Technology (IIT) Madras</div>
+                            </div>
+                        </div>
+                        <div class="education-details">
+                            <span><strong>Duration:</strong> Sep 2022 - Sep 2026 (Expected)</span>
+                            <div class="cgpa">CGPA: 8.68/10</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-school pulse"></i>
+                            </div>
+                            <div>
+                                <div class="card-title">HSC-State (Science)</div>
+                                <div class="card-subtitle">B.L.S Inter College, UPMSP</div>
+                            </div>
+                        </div>
+                        <div class="education-details">
+                            <span><strong>Passed:</strong> 2021</span>
+                            <div class="cgpa">75%</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-book-open bounce"></i>
+                            </div>
+                            <div>
+                                <div class="card-title">SSC-State (Science)</div>
+                                <div class="card-subtitle">B.L.S Inter College, UPMSP</div>
+                            </div>
+                        </div>
+                        <div class="education-details">
+                            <span><strong>Passed:</strong> 2019</span>
+                            <div class="cgpa">78.33%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="skills" class="tab-content">
+                <h2 class="section-title">
+                    <i class="fas fa-tools"></i>
+                    Technical Skills
+                </h2>
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fab fa-python pulse"></i>
+                            </div>
+                            <div>
+                                <div class="card-title">Programming Languages</div>
+                            </div>
+                        </div>
+                        <div class="skills-grid">
+                            <div class="skill-item">Python</div>
+                            <div class="skill-item">SQL</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-cubes rotate"></i>
+                            </div>
+                            <div>
+                                <div class="card-title">Libraries & Tools</div>
+                            </div>
+                        </div>
+                        <div class="skills-grid">
+                            <div class="skill-item">Pandas</div>
+                            <div class="skill-item">NumPy</div>
+                            <div class="skill-item">Matplotlib</div>
+                            <div class="skill-item">Scikit-learn</div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-brain bounce"></i>
+                            </div>
+                            <div>
+                                <div class="card-title">Machine Learning</div>
+                            </div>
+                        </div>
+                        <div class="skills-grid">
+                            <div class="skill-item">Classification</div>
+                            <div class="skill-item">Regression</div>
+                            <div class="skill-item">Clustering</div>
+                            <div class="skill-item">EDA</div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div id="projects" class="tab-content">
+                <h2 class="section-title">
+                    <i class="fas fa-rocket"></i>
+                    Academic Projects 
+                </h2>
+                
+                <h3 style="color: var(--primary); margin-bottom: 20px; font-size: 1.4rem;">
+                    <i class="fas fa-star"></i> Featured Projects
+                </h3>
+                <div class="cards">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-chart-line pulse"></i>
+                            </div>
+                            <div>
+                                <div class="card-title">Bank Telemarketing Prediction Model</div>
+                                <div class="card-subtitle">ML Competition Project</div>
+                            </div>
+                        </div>
+                        <div class="project-meta">
+                            <div class="project-date">Sep 2024 - Nov 2024</div>
+                            <div class="badge badge-warning">Grade: S</div>
+                        </div>
+                        <ul class="project-highlights">
+                            <li>Built predictive model with 0.78 F1 Score using Logistic Regression, Random Forest, XGBoost</li>
+                            <li>Handled data preprocessing, feature engineering, and model comparison</li>
+                            <li>Competed against 1000+ participants in ML competition</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-business-time bounce"></i>
+                            </div>
+                            <div>
+                                <div class="card-title">Inaya Cakezz Operations Optimization</div>
+                                <div class="card-subtitle">Business Analytics Capstone</div>
+                            </div>
+                        </div>
+                        <div class="project-meta">
+                            <div class="project-date">Jan 2024 - Apr 2024</div>
+                            <div class="badge badge-warning">Grade: A</div>
+                        </div>
+                        <ul class="project-highlights">
+                            <li>Analyzed 2.5 years of operational data to identify delivery and sales inefficiencies</li>
+                            <li>Delivered actionable insights for cost reduction and profit increase</li>
+                            <li>Awarded Best Capstone Project for outstanding analysis and recommendations</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-question-circle rotate"></i>
+                            </div>
+                            <div>
+                                <div class="card-title">Quiz Master V1 (Kwiz Platform)</div>
+                                <div class="card-subtitle">Modern Application Development I</div>
+                            </div>
+                        </div>
+                        <div class="project-meta">
+                            <div class="project-date">Jan 2025 - Feb 2025</div>
+                            <div class="badge badge-warning">Grade: S</div>
+                        </div>
+                        <ul class="project-highlights">
+                            <li>Multi-user exam preparation platform supporting multiple courses and users</li>
+                            <li>Admin features: Manages subjects, chapters, quizzes, and users</li>
+                            <li>User features: Registration, login, and quiz attempts with progress tracking</li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-icon">
+                                <i class="fas fa-code bounce"></i>
+                            </div>
+                            <div>
+                                <div class="card-title">Qvizz Exam Preparation Platform V2</div>
+                                <div class="card-subtitle">Modern Application Development II</div>
+                            </div>
+                        </div>
+                        <div class="project-meta">
+                            <div class="project-date">Feb 2025 - Mar 2025</div>
+                            <div class="badge badge-warning">Grade: S</div>
+                        </div>
+                        <ul class="project-highlights">
+                            <li>Enhanced full-stack web application with personalized quizzes and real-time analytics</li>
+                            <li>Tech stack: Flask, SQLite, Vue.js, REST API</li>
+                            <li>Advanced features: User authentication, progress tracking, and performance analytics</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Optimized state management using a single object
+const App = {
+    state: {
+        darkMode: window.matchMedia?.('(prefers-color-scheme: dark)').matches || false,
+        activeTab: 'summary'
+    },
+
+    // Cache DOM elements for better performance
+    elements: {},
+
+    init() {
+        this.cacheElements();
+        this.bindEvents();
+        this.initTheme();
+        this.initIntersectionObserver();
+    },
+
+    cacheElements() {
+        this.elements = {
+            body: document.body,
+            themeToggle: document.getElementById('themeToggle'),
+            printBtn: document.getElementById('printBtn'),
+            tabs: document.querySelectorAll('.tab'),
+            tabContents: document.querySelectorAll('.tab-content'),
+            cards: document.querySelectorAll('.card'),
+            header: document.querySelector('.header')
+        };
+    },
+
+    bindEvents() {
+        // Use event delegation for better performance
+        this.elements.themeToggle.addEventListener('click', () => this.toggleTheme());
+        this.elements.printBtn.addEventListener('click', () => this.print());
+        
+        // Tab switching
+        this.elements.tabs.forEach(tab => {
+            tab.addEventListener('click', (e) => this.switchTab(e.target.closest('.tab')));
+        });
+
+        // Header click effect
+        this.elements.header.addEventListener('click', this.headerClickEffect);
+
+        // Responsive handling
+        window.addEventListener('resize', this.debounce(this.handleResize.bind(this), 250));
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => this.handleKeyboard(e));
+
+        // Contact item interactions
+        document.querySelectorAll('.contact-item').forEach(item => {
+            item.addEventListener('click', () => this.copyToClipboard(item));
+        });
+
+        // Card hover animations
+        this.elements.cards.forEach(card => {
+            card.addEventListener('mouseenter', () => this.animateCard(card, 'enter'));
+            card.addEventListener('mouseleave', () => this.animateCard(card, 'leave'));
+        });
+    },
+
+    initTheme() {
+        this.elements.body.setAttribute('data-theme', this.state.darkMode ? 'dark' : 'light');
+        this.updateThemeButton();
+    },
+
+    toggleTheme() {
+        this.state.darkMode = !this.state.darkMode;
+        this.elements.body.setAttribute('data-theme', this.state.darkMode ? 'dark' : 'light');
+        this.updateThemeButton();
+        
+        // Smooth transition effect
+        this.elements.body.style.transition = 'all 0.3s ease';
+        setTimeout(() => {
+            this.elements.body.style.transition = '';
+        }, 300);
+    },
+
+    updateThemeButton() {
+        const icon = this.elements.themeToggle.querySelector('i');
+        const text = this.elements.themeToggle.querySelector('span');
+        
+        if (this.state.darkMode) {
+            icon.className = 'fas fa-sun';
+            text.textContent = 'Light';
+        } else {
+            icon.className = 'fas fa-moon';
+            text.textContent = 'Dark';
+        }
+    },
+
+    switchTab(clickedTab) {
+        if (!clickedTab) return;
+        
+        const targetTab = clickedTab.dataset.tab;
+        if (targetTab === this.state.activeTab) return;
+
+        // Update tab states
+        this.elements.tabs.forEach(tab => tab.classList.remove('active'));
+        clickedTab.classList.add('active');
+
+        // Update content with smooth transition
+        this.elements.tabContents.forEach(content => {
+            if (content.id === targetTab) {
+                content.classList.add('active');
+                // Trigger entrance animation
+                setTimeout(() => {
+                    content.style.opacity = '1';
+                    content.style.transform = 'translateY(0)';
+                }, 50);
+            } else {
+                content.classList.remove('active');
+            }
+        });
+
+        this.state.activeTab = targetTab;
+        
+        // Add ripple effect to clicked tab
+        this.createRipple(clickedTab);
+    },
+
+    createRipple(element) {
+        const ripple = document.createElement('div');
+        const rect = element.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        
+        ripple.style.cssText = `
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(79, 70, 229, 0.3);
+            transform: scale(0);
+            animation: ripple 0.6s linear;
+            left: 50%;
+            top: 50%;
+            width: ${size}px;
+            height: ${size}px;
+            margin-left: -${size/2}px;
+            margin-top: -${size/2}px;
+            pointer-events: none;
+        `;
+        
+        element.style.position = 'relative';
+        element.appendChild(ripple);
+        
+        setTimeout(() => ripple.remove(), 600);
+    },
+
+    print() {
+        // Add print-specific styles temporarily
+        const printStyles = document.createElement('style');
+        printStyles.textContent = `
+            @media print {
+                .control-buttons, .tabs { display: none !important; }
+                .tab-content { display: block !important; page-break-after: always; }
+                .tab-content:last-child { page-break-after: auto; }
+                .dashboard { box-shadow: none !important; background: white !important; }
+            }
+        `;
+        document.head.appendChild(printStyles);
+        
+        // Show loading state
+        this.elements.printBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>Printing...</span>';
+        
+        setTimeout(() => {
+            window.print();
+            document.head.removeChild(printStyles);
+            this.elements.printBtn.innerHTML = '<i class="fas fa-print"></i> <span>Print</span>';
+        }, 300);
+    },
+
+    headerClickEffect(e) {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        
+        const ripple = document.createElement('div');
+        ripple.style.cssText = `
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple 1s linear;
+            left: ${x}px;
+            top: ${y}px;
+            width: 100px;
+            height: 100px;
+            margin-left: -50px;
+            margin-top: -50px;
+            pointer-events: none;
+        `;
+        
+        e.currentTarget.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 1000);
+    },
+
+    handleKeyboard(e) {
+        if (e.altKey) {
+            switch(e.key) {
+                case '1': this.switchTabByIndex(0); break;
+                case '2': this.switchTabByIndex(1); break;
+                case '3': this.switchTabByIndex(2); break;
+                case '4': this.switchTabByIndex(3); break;
+                case 't': e.preventDefault(); this.toggleTheme(); break;
+                case 'p': e.preventDefault(); this.print(); break;
+            }
+        }
+        
+        // Arrow key navigation
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            const currentIndex = [...this.elements.tabs].findIndex(tab => tab.classList.contains('active'));
+            let newIndex;
+            
+            if (e.key === 'ArrowLeft') {
+                newIndex = currentIndex > 0 ? currentIndex - 1 : this.elements.tabs.length - 1;
+            } else {
+                newIndex = currentIndex < this.elements.tabs.length - 1 ? currentIndex + 1 : 0;
+            }
+            
+            this.switchTabByIndex(newIndex);
+        }
+    },
+
+    switchTabByIndex(index) {
+        if (index >= 0 && index < this.elements.tabs.length) {
+            this.switchTab(this.elements.tabs[index]);
+        }
+    },
+
+    copyToClipboard(contactItem) {
+        const text = contactItem.querySelector('span').textContent;
+        
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(text).then(() => {
+                this.showTooltip(contactItem, 'Copied!');
+            });
+        } else {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            this.showTooltip(contactItem, 'Copied!');
+        }
+    },
+
+    showTooltip(element, message) {
+        const tooltip = document.createElement('div');
+        tooltip.textContent = message;
+        tooltip.style.cssText = `
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            z-index: 1000;
+            pointer-events: none;
+            transform: translateX(-50%);
+            top: -35px;
+            left: 50%;
+        `;
+        
+        element.style.position = 'relative';
+        element.appendChild(tooltip);
+        
+        setTimeout(() => tooltip.remove(), 2000);
+    },
+
+    animateCard(card, type) {
+        if (type === 'enter') {
+            card.style.transform = 'translateY(-8px) scale(1.02)';
+            card.querySelector('.card-icon').style.transform = 'rotate(5deg) scale(1.1)';
+        } else {
+            card.style.transform = '';
+            card.querySelector('.card-icon').style.transform = '';
+        }
+    },
+
+    initIntersectionObserver() {
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'slideUp 0.6s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards for scroll animations
+        this.elements.cards.forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            observer.observe(card);
+        });
+    },
+
+    handleResize() {
+        // Handle responsive behavior
+        const width = window.innerWidth;
+        
+        if (width <= 768) {
+            // Mobile optimizations
+            this.elements.tabs.forEach(tab => {
+                tab.style.minWidth = '80px';
+            });
+        } else {
+            // Desktop optimizations
+            this.elements.tabs.forEach(tab => {
+                tab.style.minWidth = '120px';
+            });
+        }
+    },
+
+    // Utility function for debouncing
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+};
+
+// Add required CSS animations if not present
+const addMissingStyles = () => {
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple {
+            to { transform: scale(4); opacity: 0; }
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .card, .card-icon {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    `;
+    document.head.appendChild(style);
+};
+
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    addMissingStyles();
+    App.init();
+    
+    // Add keyboard shortcuts info (optional)
+    console.log('Keyboard shortcuts:');
+    console.log('Alt + 1-4: Switch tabs');
+    console.log('Alt + T: Toggle theme');
+    console.log('Alt + P: Print');
+    console.log('Arrow keys: Navigate tabs');
+    console.log('Click contact info to copy');
+});
+
+
+window.ResumeApp = App;
+</script>
+</body>
+</html>
